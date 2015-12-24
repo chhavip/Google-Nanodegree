@@ -8,14 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
  * Created by chhavi on 24/12/15.
  */
 public class MovieAdapter extends ArrayAdapter<Movie.Result> {
+    Context context;
     public MovieAdapter(Context context, List<Movie.Result> objects) {
         super(context, 0, objects);
+        this.context = context;
     }
 
     @Override
@@ -33,6 +37,9 @@ public class MovieAdapter extends ArrayAdapter<Movie.Result> {
         }
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.movie_poster);
+        String imageUrl = context.getResources().getString(R.string.BASE_URL) + context.getResources().getString(R.string.phone_size)
+                + movie.getPoster_path();
+        Picasso.with(context).load(imageUrl).into(iconView);
        // iconView.setImageResource(androidFlavor.image);
 
         TextView movieTitle = (TextView) convertView.findViewById(R.id.movie_title);
