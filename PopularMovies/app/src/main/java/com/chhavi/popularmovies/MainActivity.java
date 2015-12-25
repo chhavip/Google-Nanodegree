@@ -18,9 +18,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final GridView gridView = (GridView)findViewById(R.id.movies_grid);
-        String popular_movies_url = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=5534ea3819b464fb51bbf768d19dcf32";
-
-        GsonRequest gsonRequest = new GsonRequest(popular_movies_url, Movie.class, null, new Response.Listener() {
+        String popular_movie_url = getResources().getString(R.string.BASE_MOVIE_URL) + getResources().getString(R.string.popularity_citerion) + "&api_key=" + getResources().getString(R.string.API_KEY);
+        String rating_movie_url = getResources().getString(R.string.BASE_MOVIE_URL) + getResources().getString(R.string.rating_criterion) + "&api_key=" + getResources().getString(R.string.API_KEY);
+       // String popular_movies_url = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=5534ea3819b464fb51bbf768d19dcf32";
+        Log.e("url0",popular_movie_url);
+        GsonRequest gsonRequest = new GsonRequest(popular_movie_url, Movie.class, null, new Response.Listener() {
             @Override
             public void onResponse(Object response) {
                 Movie movie = (Movie)response;

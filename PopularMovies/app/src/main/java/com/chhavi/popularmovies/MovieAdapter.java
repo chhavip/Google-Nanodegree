@@ -37,7 +37,7 @@ public class MovieAdapter extends ArrayAdapter<Movie.Result> {
         }
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.movie_poster);
-        String imageUrl = context.getResources().getString(R.string.BASE_URL) + context.getResources().getString(R.string.phone_size)
+        String imageUrl = context.getResources().getString(R.string.BASE_IMAGE_URL) + context.getResources().getString(R.string.phone_size)
                 + movie.getPoster_path();
         Picasso.with(context).load(imageUrl).into(iconView);
        // iconView.setImageResource(androidFlavor.image);
