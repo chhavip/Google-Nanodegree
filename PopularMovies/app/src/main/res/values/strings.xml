@@ -3,8 +3,8 @@
     <string name="BASE_IMAGE_URL">http://image.tmdb.org/t/p/</string>
     <string name="phone_size">w185/</string>
     <string name="original_size">original</string>
-    <string name="BASE_MOVIE_URL">http://api.themoviedb.org/3/discover/movie?sort_by=</string>
-    <string name="popularity_citerion">popularity.desc</string>
-    <string name="rating_criterion">rating.desc</string>
+    <string name="BASE_MOVIE_URL">http://api.themoviedb.org/3/movie/</string>
+    <string name="popularity_citerion">popular</string>
+    <string name="rating_criterion">top_rated</string>
     <string name="API_KEY">5534ea3819b464fb51bbf768d19dcf32</string>
 </resources>
