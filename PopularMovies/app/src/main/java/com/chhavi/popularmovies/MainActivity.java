@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
                     Movie movie = (Movie) response;
                     results  = movie.getResults();
                     Log.e("movie", results.get(0).getTitle());
+                    movieAdapter = new MovieAdapter(MainActivity.this, results);
+                    gridView.setAdapter(movieAdapter);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -45,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
             });
             VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
         }else{
-            results = savedInstanceState.getParcelableArrayList("movies");
+           results = savedInstanceState.getParcelableArrayList("movies");
+            movieAdapter = new MovieAdapter(MainActivity.this, results);
+            gridView.setAdapter(movieAdapter);
 
         }
-        movieAdapter = new MovieAdapter(MainActivity.this, results);
-        gridView.setAdapter(movieAdapter);
+
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

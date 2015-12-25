@@ -14,6 +14,8 @@ public class Result implements Parcelable {
         overview = in.readString();
         original_title = in.readString();
         title = in.readString();
+        release_date = in.readString();
+        vote_average = in.readFloat();
     }
 
     public static final Creator<Result> CREATOR = new Creator<Result>() {
@@ -56,6 +58,25 @@ public class Result implements Parcelable {
     private String overview;
     private String original_title;
 
+    public String getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
+    }
+
+    public float getVote_average() {
+        return vote_average;
+    }
+
+    public void setVote_average(float vote_average) {
+        this.vote_average = vote_average;
+    }
+
+    private String release_date;
+    private float vote_average;
+
     public String getTitle() {
         return title;
     }
@@ -77,5 +98,7 @@ public class Result implements Parcelable {
         dest.writeString(overview);
         dest.writeString(original_title);
         dest.writeString(title);
+        dest.writeString(release_date);
+        dest.writeFloat(vote_average);
     }
 }
