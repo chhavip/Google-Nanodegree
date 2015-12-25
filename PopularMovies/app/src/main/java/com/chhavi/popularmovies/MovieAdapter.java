@@ -15,9 +15,9 @@ import java.util.List;
 /**
  * Created by chhavi on 24/12/15.
  */
-public class MovieAdapter extends ArrayAdapter<Movie.Result> {
+public class MovieAdapter extends ArrayAdapter<Result> {
     Context context;
-    public MovieAdapter(Context context, List<Movie.Result> objects) {
+    public MovieAdapter(Context context, List<Result> objects) {
         super(context, 0, objects);
         this.context = context;
     }
@@ -25,7 +25,7 @@ public class MovieAdapter extends ArrayAdapter<Movie.Result> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
        // return super.getView(position, convertView, parent);
-        Movie.Result movie = getItem(position);
+        Result movie = getItem(position);
 
         // Adapters recycle views to AdapterViews.
         // If this is a new View object we're getting, then inflate the layout.
@@ -47,4 +47,6 @@ public class MovieAdapter extends ArrayAdapter<Movie.Result> {
 
         return convertView;
     }
+
+
 }
