@@ -2,8 +2,8 @@
 <resources>
 
     <array name="sort_options">
-        <item>Popularity</item>
-        <item>Rating</item>
+        <item>Most Popular</item>
+        <item>Highest Rating</item>
     </array>
 
 </resources>

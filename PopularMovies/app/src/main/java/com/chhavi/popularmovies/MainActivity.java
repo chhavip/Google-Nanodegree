@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Object response) {
                    movie = (Movie) response;
                     results  = movie.getResults();
-                    Log.e("movie", results.get(0).getTitle());
                     movieAdapter = new MovieAdapter(MainActivity.this, results);
                     gridView.setAdapter(movieAdapter);
                 }
@@ -109,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResponse(Object response) {
                                     movie = (Movie) response;
                                     results  = movie.getResults();
-                                    Log.e("movie + af", results.get(0).getTitle());
                                     movieAdapter = new MovieAdapter(MainActivity.this, results);
                                     gridView.setAdapter(movieAdapter);
                                 }
