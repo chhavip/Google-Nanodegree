@@ -25,23 +25,23 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Result> results;
     String rating_movie_url;
     Movie movie;
-     GridView gridView;
+    GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       gridView = (GridView)findViewById(R.id.movies_grid);
+        gridView = (GridView) findViewById(R.id.movies_grid);
 
 
-        if(savedInstanceState == null ||!savedInstanceState.containsKey("movies")) {
-            popular_movie_url  = getResources().getString(R.string.BASE_MOVIE_URL) + getResources().getString(R.string.popularity_citerion) + "?api_key=" + getResources().getString(R.string.API_KEY);
-            rating_movie_url    = getResources().getString(R.string.BASE_MOVIE_URL) + getResources().getString(R.string.rating_criterion) + "?api_key=" + getResources().getString(R.string.API_KEY);
+        if (savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+            popular_movie_url = getResources().getString(R.string.BASE_MOVIE_URL) + getResources().getString(R.string.popularity_citerion) + "?api_key=" + getResources().getString(R.string.API_KEY);
+            rating_movie_url = getResources().getString(R.string.BASE_MOVIE_URL) + getResources().getString(R.string.rating_criterion) + "?api_key=" + getResources().getString(R.string.API_KEY);
             GsonRequest gsonRequest = new GsonRequest(popular_movie_url, Movie.class, null, new Response.Listener() {
                 @Override
                 public void onResponse(Object response) {
-                   movie = (Movie) response;
-                    results  = movie.getResults();
+                    movie = (Movie) response;
+                    results = movie.getResults();
                     movieAdapter = new MovieAdapter(MainActivity.this, results);
                     gridView.setAdapter(movieAdapter);
                 }
@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
-        }else{
-           results = savedInstanceState.getParcelableArrayList("movies");
+        } else {
+            results = savedInstanceState.getParcelableArrayList("movies");
             movieAdapter = new MovieAdapter(MainActivity.this, results);
             gridView.setAdapter(movieAdapter);
 
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-     //   return super.onCreateOptionsMenu(menu);
+        //   return super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_activity_menu, menu);
         return true;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //return super.onOptionsItemSelected(item);
-        if(item.getItemId() == R.id.menu_sort){
+        if (item.getItemId() == R.id.menu_sort) {
             new MaterialDialog.Builder(this)
                     .title("Sort By")
                     .items(R.array.sort_options)
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                             String req_url;
-                            switch (which){
+                            switch (which) {
                                 case 0:
                                     req_url = popular_movie_url;
                                     break;
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Object response) {
                                     movie = (Movie) response;
-                                    results  = movie.getResults();
+                                    results = movie.getResults();
                                     movieAdapter = new MovieAdapter(MainActivity.this, results);
                                     gridView.setAdapter(movieAdapter);
                                 }
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("movies",results);
+        outState.putParcelableArrayList("movies", results);
         super.onSaveInstanceState(outState);
     }
 }

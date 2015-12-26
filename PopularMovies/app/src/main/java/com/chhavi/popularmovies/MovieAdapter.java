@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class MovieAdapter extends ArrayAdapter<Result> {
     Context context;
+
     public MovieAdapter(Context context, List<Result> objects) {
         super(context, 0, objects);
         this.context = context;
@@ -24,7 +25,7 @@ public class MovieAdapter extends ArrayAdapter<Result> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-       // return super.getView(position, convertView, parent);
+        // return super.getView(position, convertView, parent);
         Result movie = getItem(position);
 
         // Adapters recycle views to AdapterViews.
@@ -40,7 +41,7 @@ public class MovieAdapter extends ArrayAdapter<Result> {
         String imageUrl = context.getResources().getString(R.string.BASE_IMAGE_URL) + context.getResources().getString(R.string.phone_size)
                 + movie.getPoster_path();
         Picasso.with(context).load(imageUrl).into(iconView);
-       // iconView.setImageResource(androidFlavor.image);
+        // iconView.setImageResource(androidFlavor.image);
 
         TextView movieTitle = (TextView) convertView.findViewById(R.id.movie_title);
         movieTitle.setText(movie.getTitle());

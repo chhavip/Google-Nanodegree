@@ -2,8 +2,10 @@ package com.chhavi.popularmovies;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,15 +37,28 @@ public class MovieDetail extends AppCompatActivity {
         setContentView(R.layout.movie_detail);
         ButterKnife.bind(this);
         Intent intent = getIntent();
+
         Result movie = intent.getParcelableExtra("movie");
-        Log.e("move", movie.getTitle());
+        getSupportActionBar().setTitle(movie.getTitle());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         movieTitle.setText(movie.getTitle());
         String posterUrl = getResources().getString(R.string.BASE_IMAGE_URL) + getResources().getString(R.string.phone_size)
                 + movie.getPoster_path();
         Picasso.with(this).load(posterUrl).into(moviePoster);
         movieSynopsis.setText(movie.getOverview());
-        averageVote.setText(""+movie.getVote_average());
+        averageVote.setText("" + movie.getVote_average() + "/10");
         releaseDate.setText(movie.getRelease_date());
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

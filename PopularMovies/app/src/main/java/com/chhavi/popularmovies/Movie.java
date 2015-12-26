@@ -10,16 +10,16 @@ import java.util.ArrayList;
 /**
  * Created by chhavi on 24/12/15.
  */
-public class Movie implements Parcelable{
+public class Movie implements Parcelable {
     private int page;
     private ArrayList<Result> results;
 
     protected Movie(Parcel in) {
         page = in.readInt();
-     //   Result[] resultsL = results.toArray(Result[]);
-         in.readTypedList(results, Result.CREATOR);
-       // in.readTypedArray(results.toArray(new Result[results.size()]), Result.CREATOR);
-      //  results = in.readArrayList(Result);
+        //   Result[] resultsL = results.toArray(Result[]);
+        in.readTypedList(results, Result.CREATOR);
+        // in.readTypedArray(results.toArray(new Result[results.size()]), Result.CREATOR);
+        //  results = in.readArrayList(Result);
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -56,7 +56,6 @@ public class Movie implements Parcelable{
     }
 
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -67,7 +66,6 @@ public class Movie implements Parcelable{
         dest.writeInt(page);
         dest.writeTypedList(results);
     }
-
 
 
 }
