@@ -14,9 +14,11 @@ import java.util.List;
  */
 public class TrailersAdapter extends ArrayAdapter<ReviewResult.ReviewResultInner> {
     Context context;
+    List<ReviewResult.ReviewResultInner> trailers;
     public TrailersAdapter(Context context, List<ReviewResult.ReviewResultInner> objects) {
         super(context, 0, objects);
         this.context = context;
+        this.trailers = objects;
     }
 
     @Override
@@ -26,7 +28,12 @@ public class TrailersAdapter extends ArrayAdapter<ReviewResult.ReviewResultInner
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.review_card_layout, parent, false);
         }
         TextView trailerText = (TextView)convertView.findViewById(R.id.review_text);
-        trailerText.setText("Trailer " + position+"");
+        trailerText.setText(trailers.get(position).getId());
         return  convertView;
+    }
+
+    @Override
+    public int getCount() {
+        return trailers.size();
     }
 }

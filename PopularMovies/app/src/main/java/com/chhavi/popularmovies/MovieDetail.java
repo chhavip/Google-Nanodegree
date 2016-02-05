@@ -1,12 +1,16 @@
 package com.chhavi.popularmovies;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -79,8 +83,24 @@ public class MovieDetail extends AppCompatActivity {
 
         trailerResults = new ArrayList<>();
         addTrailers();
-        TrailersAdapter trailersAdapter = new TrailersAdapter(MovieDetail.this,trailerResults);
+        final TrailersAdapter trailersAdapter = new TrailersAdapter(MovieDetail.this,trailerResults);
         trailersexpandableListview.setAdapter(trailersAdapter);
+
+
+        trailersexpandableListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ReviewResult.ReviewResultInner trailer = trailersAdapter.getItem(position);
+                try{
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+                    startActivity(intent);
+                }catch (ActivityNotFoundException ex){
+                    Intent intent=new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://www.youtube.com/watch?v="+trailer.getId()));
+                    startActivity(intent);
+                }
+            }
+        });
 
 
 
@@ -108,6 +128,7 @@ public class MovieDetail extends AppCompatActivity {
                 //  reviewResultInners = reviewResult.getResults();
                 for (int i = 0; i < reviewResult.getResults().size(); i++)
                     reviewResultInners.add(reviewResult.getResults().get(i));
+                if(reviewResultInners.size()!=0)
                 Log.e("result", reviewResultInners.get(0).getContent());
                 adapter.notifyDataSetChanged();
 
@@ -123,7 +144,7 @@ public class MovieDetail extends AppCompatActivity {
     }
 
     public  void addTrailers(){
-        String trailers_result = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getId() + "/videos" + "?api_key=" + getResources().getString(R.string.API_KEY);
+        final String trailers_result = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getId() + "/videos" + "?api_key=" + getResources().getString(R.string.API_KEY);
 
         GsonRequest gsonRequest = new GsonRequest(trailers_result, TrailerResult.class, null, new Response.Listener() {
             @Override
@@ -132,7 +153,9 @@ public class MovieDetail extends AppCompatActivity {
                 //  reviewResultInners = reviewResult.getResults();
                 for (int i = 0; i < reviewResult.getResults().size(); i++)
                     trailerResults.add(reviewResult.getResults().get(i));
-                Log.e("result", trailerResults.get(0).getId());
+                if(trailerResults.size()!=0)
+                    Log.e("result", trailerResults.get(0).getId());
+                adapter.notifyDataSetChanged();
               //  adapter.notifyDataSetChanged();
 
 
