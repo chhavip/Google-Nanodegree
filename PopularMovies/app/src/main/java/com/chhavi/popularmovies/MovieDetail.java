@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,6 +45,9 @@ public class MovieDetail extends AppCompatActivity {
     Result movie;
     ReviewListAdapter adapter;
     ArrayList<ReviewResult.ReviewResultInner> reviewResultInners;
+    @Bind(R.id.expandable_listview)
+    ExpandableHeightListView expandableListview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +72,9 @@ public class MovieDetail extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MovieDetail.this);
         reviewsList.setLayoutManager(linearLayoutManager);
 
-          adapter  = new ReviewListAdapter(MovieDetail.this, reviewResultInners);
+        adapter = new ReviewListAdapter(MovieDetail.this, reviewResultInners);
         reviewsList.setAdapter(adapter);
+
 
 
 
@@ -87,20 +91,18 @@ public class MovieDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addReviews(){
-        String reviews_url =  getResources().getString(R.string.BASE_MOVIE_URL) + movie.getId() + "/reviews" + "?api_key=" + getResources().getString(R.string.API_KEY);
+    public void addReviews() {
+        String reviews_url = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getId() + "/reviews" + "?api_key=" + getResources().getString(R.string.API_KEY);
 
         GsonRequest gsonRequest = new GsonRequest(reviews_url, ReviewResult.class, null, new Response.Listener() {
             @Override
             public void onResponse(Object response) {
                 ReviewResult reviewResult = (ReviewResult) response;
                 //  reviewResultInners = reviewResult.getResults();
-                for(int i=0;i<reviewResult.getResults().size();i ++)
+                for (int i = 0; i < reviewResult.getResults().size(); i++)
                     reviewResultInners.add(reviewResult.getResults().get(i));
                 Log.e("result", reviewResultInners.get(0).getContent());
                 adapter.notifyDataSetChanged();
-
-
 
 
             }

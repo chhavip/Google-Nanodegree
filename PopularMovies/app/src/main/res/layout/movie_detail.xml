@@ -121,15 +121,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="TRAILERS :"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/reviews_list"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="300dp">
+    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+        android:id="@+id/expandable_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
 
-    </android.support.v7.widget.RecyclerView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
