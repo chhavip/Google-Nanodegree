@@ -16,6 +16,7 @@ public class Result implements Parcelable {
         title = in.readString();
         release_date = in.readString();
         vote_average = in.readFloat();
+        id = in.readInt();
     }
 
     public static final Creator<Result> CREATOR = new Creator<Result>() {
@@ -87,6 +88,16 @@ public class Result implements Parcelable {
 
     private String title;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
     @Override
     public int describeContents() {
         return 0;
@@ -100,5 +111,6 @@ public class Result implements Parcelable {
         dest.writeString(title);
         dest.writeString(release_date);
         dest.writeFloat(vote_average);
+        dest.writeInt(id);
     }
 }
