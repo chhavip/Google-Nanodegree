@@ -46,7 +46,9 @@ public class MovieDetail extends AppCompatActivity {
     ReviewListAdapter adapter;
     ArrayList<ReviewResult.ReviewResultInner> reviewResultInners;
     @Bind(R.id.expandable_listview)
-    ExpandableHeightListView expandableListview;
+    ExpandableHeightListView trailersexpandableListview;
+
+    ArrayList<ReviewResult.ReviewResultInner> trailerResults;
 
 
     @Override
@@ -74,6 +76,11 @@ public class MovieDetail extends AppCompatActivity {
 
         adapter = new ReviewListAdapter(MovieDetail.this, reviewResultInners);
         reviewsList.setAdapter(adapter);
+
+        trailerResults = new ArrayList<>();
+        addTrailers();
+        TrailersAdapter trailersAdapter = new TrailersAdapter(MovieDetail.this,trailerResults);
+        trailersexpandableListview.setAdapter(trailersAdapter);
 
 
 
@@ -113,5 +120,31 @@ public class MovieDetail extends AppCompatActivity {
             }
         });
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
+    }
+
+    public  void addTrailers(){
+        String trailers_result = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getId() + "/videos" + "?api_key=" + getResources().getString(R.string.API_KEY);
+
+        GsonRequest gsonRequest = new GsonRequest(trailers_result, TrailerResult.class, null, new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                TrailerResult reviewResult = (TrailerResult) response;
+                //  reviewResultInners = reviewResult.getResults();
+                for (int i = 0; i < reviewResult.getResults().size(); i++)
+                    trailerResults.add(reviewResult.getResults().get(i));
+                Log.e("result", trailerResults.get(0).getId());
+              //  adapter.notifyDataSetChanged();
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.getMessage());
+            }
+        });
+        VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
+
+
     }
 }
