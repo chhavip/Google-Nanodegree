@@ -24,9 +24,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by chhavi on 25/12/15.
- */
 public class MovieDetail extends AppCompatActivity {
 
 
@@ -157,8 +154,6 @@ public class MovieDetail extends AppCompatActivity {
                     Log.e("result", trailerResults.get(0).getId());
                 adapter.notifyDataSetChanged();
               //  adapter.notifyDataSetChanged();
-
-
             }
         }, new Response.ErrorListener() {
             @Override

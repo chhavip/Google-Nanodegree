@@ -37,4 +37,8 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true
     }
+    compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'com.cesarferreira.colorize:library:0.2.1'
+
 }
