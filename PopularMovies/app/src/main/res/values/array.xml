@@ -4,6 +4,7 @@
     <array name="sort_options">
         <item>Most Popular</item>
         <item>Highest Rating</item>
+        <item>Favourites</item>
     </array>
 
 </resources>

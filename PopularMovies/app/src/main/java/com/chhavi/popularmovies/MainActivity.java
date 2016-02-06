@@ -96,32 +96,64 @@ public class MainActivity extends AppCompatActivity {
                             switch (which) {
                                 case 0:
                                     req_url = popular_movie_url;
+                                    GsonRequest gsonRequest = new GsonRequest(req_url, Movie.class, null, new Response.Listener() {
+                                        @Override
+                                        public void onResponse(Object response) {
+                                            movie = (Movie) response;
+                                            results = movie.getResults();
+                                            movieAdapter = new MovieAdapter(MainActivity.this, results);
+                                            gridView.setAdapter(movieAdapter);
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                                        }
+                                    });
+                                    VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
                                     break;
                                 case 1:
                                     req_url = rating_movie_url;
-                                    break;
-                                default:
-                                    req_url = popular_movie_url;
-                            }
-                            GsonRequest gsonRequest = new GsonRequest(req_url, Movie.class, null, new Response.Listener() {
-                                @Override
-                                public void onResponse(Object response) {
-                                    movie = (Movie) response;
-                                    results = movie.getResults();
-                                    movieAdapter = new MovieAdapter(MainActivity.this, results);
-                                    gridView.setAdapter(movieAdapter);
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                    gsonRequest = new GsonRequest(req_url, Movie.class, null, new Response.Listener() {
+                                        @Override
+                                        public void onResponse(Object response) {
+                                            movie = (Movie) response;
+                                            results = movie.getResults();
+                                            movieAdapter = new MovieAdapter(MainActivity.this, results);
+                                            gridView.setAdapter(movieAdapter);
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
-                                }
-                            });
-                            VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
-                            return true;
+                                        }
+                                    });
+                                    VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
+                                    break;
+                                case 2:
+                                    List<FavouriteMovie> favouriteMovies = FavouriteMovie.listAll(FavouriteMovie.class);
+                                    if (favouriteMovies.size() != 0) {
+                                        results.clear();
+                                        for (int i = 0; i < favouriteMovies.size(); i++) {
+                                            results.add(new Result(favouriteMovies.get(i).getOverview(), favouriteMovies.get(i).getVote_average(), favouriteMovies.get(i).getTitle(), favouriteMovies.get(i).getRelease_date(), favouriteMovies.get(i).getMovie_id(),
+                                                    favouriteMovies.get(i).getPoster_path()));
+                                        }
+                                        movieAdapter = new MovieAdapter(MainActivity.this, results);
+                                        gridView.setAdapter(movieAdapter);
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "No favourite movies available", Toast.LENGTH_LONG)
+                                                .show();
+                                    }
+                                    break;
+                            default:
+                            req_url = popular_movie_url;
                         }
-                    })
+
+                        return true;
+                    }
+        })
                     .positiveText("Apply")
                     .show();
 

@@ -36,6 +36,15 @@ public class Result implements Parcelable  {
         }
     };
 
+    public Result(String overview, float vote_average, String title, String release_date, int movie_id, String poster) {
+        this.overview = overview;
+        this.vote_average = vote_average;
+        this.title = title;
+        this.release_date = release_date;
+        this.movie_id = movie_id;
+        this.poster_path = poster;
+    }
+
     public String getPoster_path() {
         return poster_path;
     }

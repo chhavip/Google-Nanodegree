@@ -116,7 +116,7 @@ public class MovieDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!movie.isFavourite()) {
-                    FavouriteMovie favouriteMovie = new FavouriteMovie(movie.getRelease_date(), movie.getOverview(), movie.getVote_average(), movie.getTitle(), reviewResultInners);
+                    FavouriteMovie favouriteMovie = new FavouriteMovie(movie.getRelease_date(), movie.getOverview(), movie.getVote_average(), movie.getTitle(), reviewResultInners, movie.getMovie_id(), movie.getPoster_path());
                     favouriteMovie.save();
                     movie.setIsFavourite(true);
                     fabFav.setIcon(R.drawable.ic_star_black_18dp);
