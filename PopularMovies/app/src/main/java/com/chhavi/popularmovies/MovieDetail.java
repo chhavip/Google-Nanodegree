@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.squareup.picasso.Picasso;
 
@@ -50,6 +52,12 @@ public class MovieDetail extends AppCompatActivity {
     ExpandableHeightListView trailersexpandableListview;
 
     ArrayList<ReviewResult.ReviewResultInner> trailerResults;
+    @Bind(R.id.fab_fav)
+    FloatingActionButton fabFav;
+    @Bind(R.id.fab_share)
+    FloatingActionButton fabShare;
+    @Bind(R.id.right_labels)
+    FloatingActionsMenu rightLabels;
 
 
     @Override
@@ -80,7 +88,7 @@ public class MovieDetail extends AppCompatActivity {
 
         trailerResults = new ArrayList<>();
         addTrailers();
-        final TrailersAdapter trailersAdapter = new TrailersAdapter(MovieDetail.this,trailerResults);
+        final TrailersAdapter trailersAdapter = new TrailersAdapter(MovieDetail.this, trailerResults);
         trailersexpandableListview.setAdapter(trailersAdapter);
 
 
@@ -88,18 +96,30 @@ public class MovieDetail extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ReviewResult.ReviewResultInner trailer = trailersAdapter.getItem(position);
-                try{
+                try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
                     startActivity(intent);
-                }catch (ActivityNotFoundException ex){
-                    Intent intent=new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://www.youtube.com/watch?v="+trailer.getId()));
+                } catch (ActivityNotFoundException ex) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://www.youtube.com/watch?v=" + trailer.getId()));
                     startActivity(intent);
                 }
             }
         });
 
+        fabFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+
+        fabShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
     }
@@ -116,7 +136,7 @@ public class MovieDetail extends AppCompatActivity {
     }
 
     public void addReviews() {
-        String reviews_url = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getId() + "/reviews" + "?api_key=" + getResources().getString(R.string.API_KEY);
+        String reviews_url = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getMId() + "/reviews" + "?api_key=" + getResources().getString(R.string.API_KEY);
 
         GsonRequest gsonRequest = new GsonRequest(reviews_url, ReviewResult.class, null, new Response.Listener() {
             @Override
@@ -125,8 +145,8 @@ public class MovieDetail extends AppCompatActivity {
                 //  reviewResultInners = reviewResult.getResults();
                 for (int i = 0; i < reviewResult.getResults().size(); i++)
                     reviewResultInners.add(reviewResult.getResults().get(i));
-                if(reviewResultInners.size()!=0)
-                Log.e("result", reviewResultInners.get(0).getContent());
+                if (reviewResultInners.size() != 0)
+                    Log.e("result", reviewResultInners.get(0).getContent());
                 adapter.notifyDataSetChanged();
 
 
@@ -140,8 +160,8 @@ public class MovieDetail extends AppCompatActivity {
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
     }
 
-    public  void addTrailers(){
-        final String trailers_result = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getId() + "/videos" + "?api_key=" + getResources().getString(R.string.API_KEY);
+    public void addTrailers() {
+        final String trailers_result = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getMId() + "/videos" + "?api_key=" + getResources().getString(R.string.API_KEY);
 
         GsonRequest gsonRequest = new GsonRequest(trailers_result, TrailerResult.class, null, new Response.Listener() {
             @Override
@@ -150,10 +170,10 @@ public class MovieDetail extends AppCompatActivity {
                 //  reviewResultInners = reviewResult.getResults();
                 for (int i = 0; i < reviewResult.getResults().size(); i++)
                     trailerResults.add(reviewResult.getResults().get(i));
-                if(trailerResults.size()!=0)
+                if (trailerResults.size() != 0)
                     Log.e("result", trailerResults.get(0).getId());
                 adapter.notifyDataSetChanged();
-              //  adapter.notifyDataSetChanged();
+                //  adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override

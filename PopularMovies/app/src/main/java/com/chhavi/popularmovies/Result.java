@@ -3,10 +3,12 @@ package com.chhavi.popularmovies;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.orm.SugarRecord;
+
 /**
  * Created by chhavi on 25/12/15.
  */
-public class Result implements Parcelable {
+public class Result extends SugarRecord implements Parcelable  {
 
 
     protected Result(Parcel in) {
@@ -88,7 +90,9 @@ public class Result implements Parcelable {
 
     private String title;
 
-    public int getId() {
+
+
+    public int getMId() {
         return id;
     }
 

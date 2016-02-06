@@ -40,5 +40,6 @@ dependencies {
     compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.cesarferreira.colorize:library:0.2.1'
+    compile 'com.github.satyan:sugar:1.4'
 
 }
