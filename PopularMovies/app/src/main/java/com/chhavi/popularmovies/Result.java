@@ -3,12 +3,13 @@ package com.chhavi.popularmovies;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 /**
  * Created by chhavi on 25/12/15.
  */
-public class Result extends SugarRecord implements Parcelable  {
+public class Result implements Parcelable  {
 
 
     protected Result(Parcel in) {
@@ -18,7 +19,9 @@ public class Result extends SugarRecord implements Parcelable  {
         title = in.readString();
         release_date = in.readString();
         vote_average = in.readFloat();
-        id = in.readInt();
+        movie_id = in.readInt();
+        isFavourite = in.readByte() != 0;
+
     }
 
     public static final Creator<Result> CREATOR = new Creator<Result>() {
@@ -90,17 +93,26 @@ public class Result extends SugarRecord implements Parcelable  {
 
     private String title;
 
-
-
-    public int getMId() {
-        return id;
+    public boolean isFavourite() {
+        return isFavourite;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIsFavourite(boolean isFavourite) {
+        this.isFavourite = isFavourite;
     }
 
-    private int id;
+    private boolean isFavourite;
+
+    public int getMovie_id() {
+        return movie_id;
+    }
+
+    public void setMovie_id(int movie_id) {
+        this.movie_id = movie_id;
+    }
+
+    @SerializedName("id")
+    private int movie_id;
 
     @Override
     public int describeContents() {
@@ -115,6 +127,7 @@ public class Result extends SugarRecord implements Parcelable  {
         dest.writeString(title);
         dest.writeString(release_date);
         dest.writeFloat(vote_average);
-        dest.writeInt(id);
+        dest.writeInt(movie_id);
+        dest.writeByte((byte)(isFavourite ?1:0));
     }
 }

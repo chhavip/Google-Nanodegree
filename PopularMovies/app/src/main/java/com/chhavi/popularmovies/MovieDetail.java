@@ -22,6 +22,7 @@ import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -106,13 +107,28 @@ public class MovieDetail extends AppCompatActivity {
                 }
             }
         });
+        if(movie.isFavourite())
+            fabFav.setIcon(R.drawable.ic_star_black_18dp);
+        else
+            fabFav.setIcon(R.drawable.ic_star_border_black_18dp);
 
         fabFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!movie.isFavourite()) {
+                    FavouriteMovie favouriteMovie = new FavouriteMovie(movie.getRelease_date(), movie.getOverview(), movie.getVote_average(), movie.getTitle(), reviewResultInners);
+                    favouriteMovie.save();
+                    movie.setIsFavourite(true);
+                    fabFav.setIcon(R.drawable.ic_star_black_18dp);
+                }else{
+                    movie.setIsFavourite(false);
+                    fabFav.setIcon(R.drawable.ic_star_border_black_18dp);
+                    List<FavouriteMovie> favouriteMovie = FavouriteMovie.find(FavouriteMovie.class, "title = ?", movie.getTitle());
+                    favouriteMovie.get(0).delete();
+                }
             }
         });
+
 
         fabShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +152,7 @@ public class MovieDetail extends AppCompatActivity {
     }
 
     public void addReviews() {
-        String reviews_url = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getMId() + "/reviews" + "?api_key=" + getResources().getString(R.string.API_KEY);
+        String reviews_url = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getMovie_id() + "/reviews" + "?api_key=" + getResources().getString(R.string.API_KEY);
 
         GsonRequest gsonRequest = new GsonRequest(reviews_url, ReviewResult.class, null, new Response.Listener() {
             @Override
@@ -161,7 +177,7 @@ public class MovieDetail extends AppCompatActivity {
     }
 
     public void addTrailers() {
-        final String trailers_result = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getMId() + "/videos" + "?api_key=" + getResources().getString(R.string.API_KEY);
+        final String trailers_result = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getMovie_id() + "/videos" + "?api_key=" + getResources().getString(R.string.API_KEY);
 
         GsonRequest gsonRequest = new GsonRequest(trailers_result, TrailerResult.class, null, new Response.Listener() {
             @Override
