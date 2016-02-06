@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     String rating_movie_url;
     Movie movie;
     GridView gridView;
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +60,29 @@ public class MainActivity extends AppCompatActivity {
             gridView.setAdapter(movieAdapter);
 
         }
+        if (findViewById(R.id.movie_detail_container) != null) {
+
+            mTwoPane = true;
+        }
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Result clickedMovie = movieAdapter.getItem(position);
-                Intent intent = new Intent(MainActivity.this, MovieDetail.class);
-                intent.putExtra("movie", clickedMovie);
-                startActivity(intent);
+                if(!mTwoPane) {
+                    Intent intent = new Intent(MainActivity.this, MovieDetail.class);
+                    intent.putExtra("movie", clickedMovie);
+                    startActivity(intent);
+                }else{
+                    Bundle arguments = new Bundle();
+                    arguments.putParcelable("movie",clickedMovie);
+                    MovieDetailFragment fragment = new MovieDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.movie_detail_container, fragment)
+                            .commit();
+                }
             }
         });
 
@@ -147,12 +162,12 @@ public class MainActivity extends AppCompatActivity {
                                                 .show();
                                     }
                                     break;
-                            default:
-                            req_url = popular_movie_url;
-                        }
+                                default:
+                                    req_url = popular_movie_url;
+                            }
 
-                        return true;
-                    }
+                            return true;
+                        }
         })
                     .positiveText("Apply")
                     .show();
