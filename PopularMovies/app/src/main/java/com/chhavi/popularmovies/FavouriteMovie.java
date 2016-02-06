@@ -1,6 +1,7 @@
 package com.chhavi.popularmovies;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Unique;
 
 import java.util.ArrayList;
 
@@ -85,6 +86,8 @@ public class FavouriteMovie extends SugarRecord {
 
     private String release_date;
     private float vote_average;
+
+    @Unique
     private String title;
     ArrayList<ReviewResult.ReviewResultInner> reviews;
 

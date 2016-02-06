@@ -107,10 +107,7 @@ public class MovieDetail extends AppCompatActivity {
                 }
             }
         });
-        if(movie.isFavourite())
-            fabFav.setIcon(R.drawable.ic_star_black_18dp);
-        else
-            fabFav.setIcon(R.drawable.ic_star_border_black_18dp);
+
 
         fabFav.setOnClickListener(new View.OnClickListener() {
             @Override
