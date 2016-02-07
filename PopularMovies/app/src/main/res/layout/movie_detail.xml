@@ -134,7 +134,7 @@
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:visibility="gone"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/reviews_head">
 
     </android.support.v7.widget.RecyclerView>

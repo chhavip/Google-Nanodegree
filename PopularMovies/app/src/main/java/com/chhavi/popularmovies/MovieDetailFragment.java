@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -163,7 +164,12 @@ public class MovieDetailFragment extends Fragment {
                     reviewResultInners.add(reviewResult.getResults().get(i));
                 if (reviewResultInners.size() != 0)
                     Log.e("result", reviewResultInners.get(0).getContent());
+
                 adapter.notifyDataSetChanged();
+                if(reviewResultInners.size() == 0)
+                    reviewsList.setVisibility(View.GONE);
+
+                reviewsList.setMinimumHeight(reviewResultInners.size()*100);
 
 
             }
@@ -189,6 +195,8 @@ public class MovieDetailFragment extends Fragment {
                 if (trailerResults.size() != 0)
                     Log.e("result", trailerResults.get(0).getId());
                 adapter.notifyDataSetChanged();
+
+                trailersexpandableListview.setMinimumHeight(trailerResults.size()*80);
                 //  adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
