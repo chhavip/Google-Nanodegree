@@ -6,5 +6,5 @@
     <string name="BASE_MOVIE_URL">http://api.themoviedb.org/3/movie/</string>
     <string name="popularity_citerion">popular</string>
     <string name="rating_criterion">top_rated</string>
-    <string name="API_KEY">5534ea3819b464fb51bbf768d19dcf32</string>
+    <string name="API_KEY"></string>
 </resources>
