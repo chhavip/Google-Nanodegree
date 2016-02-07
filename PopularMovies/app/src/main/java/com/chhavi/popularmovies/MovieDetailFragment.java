@@ -13,9 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -70,6 +69,15 @@ public class MovieDetailFragment extends Fragment {
     ReviewListAdapter adapter;
     ArrayList<ReviewResult.ReviewResultInner> reviewResultInners;
     ArrayList<ReviewResult.ReviewResultInner> trailerResults;
+    @Bind(R.id.trailer_image_view)
+    ImageView trailerImageView;
+    @Bind(R.id.trailer_text)
+    TextView trailerText;
+    @Bind(R.id.trailer_details)
+    LinearLayout trailerDetails;
+    @Bind(R.id.trailer_details_card)
+    CardView trailerDetailsCard;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,11 +107,11 @@ public class MovieDetailFragment extends Fragment {
 
         trailerResults = new ArrayList<>();
         addTrailers();
-        final TrailersAdapter trailersAdapter = new TrailersAdapter(getActivity(), trailerResults);
+        /*final TrailersAdapter trailersAdapter = new TrailersAdapter(getActivity(), trailerResults);
         trailersexpandableListview.setAdapter(trailersAdapter);
+*/
 
-
-        trailersexpandableListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+   /*     trailersexpandableListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ReviewResult.ReviewResultInner trailer = trailersAdapter.getItem(position);
@@ -116,18 +124,32 @@ public class MovieDetailFragment extends Fragment {
                     startActivity(intent);
                 }
             }
-        });
+        });*/
 
+        trailerDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReviewResult.ReviewResultInner trailer = trailerResults.get(0);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.getId()));
+                    startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://www.youtube.com/watch?v=" + trailer.getId()));
+                    startActivity(intent);
+                }
+            }
+        });
 
         fabFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!movie.isFavourite()) {
+                if (!movie.isFavourite()) {
                     FavouriteMovie favouriteMovie = new FavouriteMovie(movie.getRelease_date(), movie.getOverview(), movie.getVote_average(), movie.getTitle(), reviewResultInners, movie.getMovie_id(), movie.getPoster_path());
                     favouriteMovie.save();
                     movie.setIsFavourite(true);
                     fabFav.setIcon(R.drawable.ic_star_black_18dp);
-                }else{
+                } else {
                     movie.setIsFavourite(false);
                     fabFav.setIcon(R.drawable.ic_star_border_black_18dp);
                     List<FavouriteMovie> favouriteMovie = FavouriteMovie.find(FavouriteMovie.class, "title = ?", movie.getTitle());
@@ -140,14 +162,14 @@ public class MovieDetailFragment extends Fragment {
         fabShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
                 share.putExtra(Intent.EXTRA_SUBJECT, "Watch This Trailer!");
                 share.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v=" + trailerResults.get(0).getId());
 
-                startActivity(Intent.createChooser(share, "Share link!"));
+                startActivity(Intent.createChooser(share, "Share Trailer with Friends!"));
 
             }
         });
@@ -160,6 +182,7 @@ public class MovieDetailFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
     public void addReviews() {
         String reviews_url = getResources().getString(R.string.BASE_MOVIE_URL) + movie.getMovie_id() + "/reviews" + "?api_key=" + getResources().getString(R.string.API_KEY);
 
@@ -174,10 +197,12 @@ public class MovieDetailFragment extends Fragment {
                     Log.e("result", reviewResultInners.get(0).getContent());
 
                 adapter.notifyDataSetChanged();
-                if(reviewResultInners.size() == 0)
+                if (reviewResultInners.size() == 0) {
                     reviewsList.setVisibility(View.GONE);
-
-                reviewsList.setMinimumHeight(reviewResultInners.size()*100);
+                    reviewsHead.setVisibility(View.GONE);
+                }else{
+                    reviewsList.setMinimumHeight(reviewResultInners.size() * 100);
+                }
 
 
             }
@@ -200,12 +225,12 @@ public class MovieDetailFragment extends Fragment {
                 //  reviewResultInners = reviewResult.getResults();
                 for (int i = 0; i < reviewResult.getResults().size(); i++)
                     trailerResults.add(reviewResult.getResults().get(i));
-                if (trailerResults.size() != 0)
-                    Log.e("result", trailerResults.get(0).getId());
-                adapter.notifyDataSetChanged();
+                if (trailerResults.size() != 0) {
+                    trailerText.setText(trailerResults.get(0).getName());
+                } else
+                    trailerDetailsCard.setVisibility(View.GONE);
 
-                trailersexpandableListview.setMinimumHeight(trailerResults.size()*80);
-                //  adapter.notifyDataSetChanged();
+
             }
         }, new Response.ErrorListener() {
             @Override
