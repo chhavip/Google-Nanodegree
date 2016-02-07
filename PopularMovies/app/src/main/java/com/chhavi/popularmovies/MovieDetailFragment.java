@@ -107,24 +107,7 @@ public class MovieDetailFragment extends Fragment {
 
         trailerResults = new ArrayList<>();
         addTrailers();
-        /*final TrailersAdapter trailersAdapter = new TrailersAdapter(getActivity(), trailerResults);
-        trailersexpandableListview.setAdapter(trailersAdapter);
-*/
 
-   /*     trailersexpandableListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ReviewResult.ReviewResultInner trailer = trailersAdapter.getItem(position);
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
-                    startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://www.youtube.com/watch?v=" + trailer.getId()));
-                    startActivity(intent);
-                }
-            }
-        });*/
 
         trailerDetails.setOnClickListener(new View.OnClickListener() {
             @Override
