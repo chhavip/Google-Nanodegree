@@ -140,6 +140,14 @@ public class MovieDetailFragment extends Fragment {
         fabShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+                share.putExtra(Intent.EXTRA_SUBJECT, "Watch This Trailer!");
+                share.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v=" + trailerResults.get(0).getId());
+
+                startActivity(Intent.createChooser(share, "Share link!"));
 
             }
         });
